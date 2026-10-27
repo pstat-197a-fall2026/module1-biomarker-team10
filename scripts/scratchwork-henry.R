@@ -13,9 +13,8 @@
 ## Our improved panel will only incorporate random forest models and 
 ## use it iteratively through multiple folds.
 
-# Alternative biomarker panel: Random Forest
-# Fair comparison against the in-class logistic regression approach.
-# Feature selection and tuning use training data only; the test set is used once.
+## Furthermore, we will split the data before running any models to prevent data leakage,
+## carefully maintaining the integrity of using training data strictly.
 
 library(tidyverse)
 library(tidymodels)
@@ -31,9 +30,7 @@ biomarker_clean <- biomarker_clean %>%
 # Keep ADOS out of the predictors, matching the in-class analysis.
 protein_names <- setdiff(names(biomarker_clean), c("group", "ados"))
 
-# -------------------------------------------------------------------
-# 1. Split FIRST so test data do not affect feature selection or tuning.
-# -------------------------------------------------------------------
+# 1. Split first so test data do not affect feature selection or tuning.
 set.seed(101422)
 biomarker_split <- initial_split(
   biomarker_clean,
@@ -44,10 +41,8 @@ biomarker_split <- initial_split(
 train_data <- training(biomarker_split)
 test_data  <- testing(biomarker_split)
 
-# -------------------------------------------------------------------
 # 2. In-class baseline, adapted to select proteins using training data.
 #    Top 10 adjusted t-test results intersected with top 10 RF proteins.
-# -------------------------------------------------------------------
 ttest_p <- sapply(protein_names, function(p) {
   t.test(train_data[[p]] ~ train_data$group)$p.value
 })
@@ -56,7 +51,6 @@ ttest_p <- sapply(protein_names, function(p) {
 ttest_adj <- p.adjust(ttest_p, method = "BH")
 proteins_s1 <- names(sort(ttest_adj))[seq_len(min(10, length(ttest_adj)))]
 
-set.seed(101422)
 rf_baseline_rank <- randomForest(
   x = train_data[, protein_names, drop = FALSE],
   y = train_data$group,
@@ -98,15 +92,12 @@ baseline_results <- tibble(
   ROC_AUC = roc_auc_vec(baseline_truth, baseline_prob, event_level = "second")
 )
 
-# -------------------------------------------------------------------
 # 3. Alternative Random Forest: cross-validate panel size and mtry.
 #    Protein rankings are recalculated within each fold using fold-training
 #    data only. Accuracy is used to choose the panel size and mtry.
-# -------------------------------------------------------------------
 panel_sizes <- c(5, 10, 15, 20, 30, 50)
 panel_sizes <- panel_sizes[panel_sizes <= length(protein_names)]
 
-set.seed(101422)
 folds <- vfold_cv(train_data, v = 5, strata = group)
 
 cv_results <- list()
@@ -175,10 +166,7 @@ best_mtry <- best_setting$mtry[[1]]
 cat("Selected panel size:", best_k, "\n")
 cat("Selected mtry:", best_mtry, "\n")
 
-# -------------------------------------------------------------------
 # 4. Re-rank on all training data, fit the final RF, evaluate once on test.
-# -------------------------------------------------------------------
-set.seed(101422)
 rf_rank_final <- randomForest(
   x = train_data[, protein_names, drop = FALSE],
   y = train_data$group,
@@ -192,7 +180,6 @@ alternative_panel <- head(ranked_final, best_k)
 cat("Alternative protein panel:\n")
 print(alternative_panel)
 
-set.seed(101422)
 rf_final <- randomForest(
   x = train_data[, alternative_panel, drop = FALSE],
   y = train_data$group,
@@ -220,9 +207,7 @@ alternative_results <- tibble(
   ROC_AUC = roc_auc_vec(test_truth, rf_test_prob, event_level = "second")
 )
 
-# -------------------------------------------------------------------
 # 5. Compare on the same held-out test subjects and save outputs.
-# -------------------------------------------------------------------
 comparison <- bind_rows(baseline_results, alternative_results)
 print(comparison)
 
