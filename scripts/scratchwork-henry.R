@@ -69,11 +69,6 @@ proteins_s2 <- names(sort(baseline_importance, decreasing = TRUE))[
   seq_len(min(10, length(baseline_importance)))
 ]
 
-baseline_panel <- intersect(proteins_s1, proteins_s2)
-if (length(baseline_panel) == 0) {
-  stop("The in-class top-10 lists have no proteins in common. Inspect the rankings before fitting logistic regression.")
-}
-
 baseline_train <- train_data %>%
   select(group, all_of(baseline_panel)) %>%
   mutate(class = group == "ASD") %>%
@@ -88,7 +83,11 @@ baseline_fit <- glm(class ~ ., data = baseline_train, family = binomial())
 baseline_prob <- predict(baseline_fit, newdata = baseline_test, type = "response")
 baseline_pred <- factor(ifelse(baseline_prob >= 0.5, "ASD", "TD"),
                         levels = c("TD", "ASD"))
-baseline_truth <- factor(baseline_test$group, levels = c("TD", "ASD"))
+
+baseline_truth <- factor(
+  test_data$group,
+  levels = c("TD", "ASD")
+)
 
 baseline_results <- tibble(
   Model = "In-class Logistic Regression (training-only selection)",
