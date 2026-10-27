@@ -1,0 +1,37 @@
+Hewitson et al. (2021) looked for a panel of serum proteins that would
+seperate boys with autism specturm disorder(ASD) from typically developing
+(TD) boys. They studied 154 boys, 76 with ASD and 78 TD aged 18 months to
+8 years. Serum samples were run on the SomaLogic SOMAScan 1.3k platform
+which measured 1,317 proteins. Out of those, 192 proteins weren't used 
+because they failed quality control. So 1,125 proteins were used. Protein
+levels were log_10 transformed and z-scored and any value beyond +3 or -3
+standard deviations was removed.
+
+The study used 3 seperate methods to determine the what proteins are 
+impactful. They used a random forest to classify ASD and TD and was fit 
+1,000 times. The proteins were ranked by their avg MeanDecreaseGini
+importance. They also used t-tests. Each protein had 2 smaple t-test 
+comparing ASD and TD, the 10 most significant were kept. The last method
+they ysed was correlation with severity. Each protein was correlated with
+the ADOS total score. Then the 10 largeest absolute correlation were kept.
+
+They compared the top 10 proteins for all 3 methods and 5 proteins were
+found to be in all 3. This core panel is made of MAPK14, IgD, DERM, 
+EPHB2, and suPAR. They also added 4 other proteins that helped raise the
+AUC. ROR1, GI24, eIF-4H, and ARSB. So the final panel had 9 proteins
+
+Then the study evaluated the panel, so they fit a logistic regression on
+a random 80% selection of the boys and scored it on the other 20%. They
+repeated this 1,000 times and averaged the results. The avg AUC was 0.860
++- 0.064, avg sensitvity was 0.833 +- 0.118, and avg specificity was 0.846
++- 0.118.
+
+There are 2 points of contention for this study. Number 1 was that the
+paper used all the data to select proteins. Thus the test split of boys
+was used to help choose the best panel of proteins. However that makes 
+the performance look better than it would be on new children. Number 2
+was that the correlation analysis included the TD boys. They had 
+randomly assigned ADOS scores and that made the correlation results 
+unreliable. Due to these issues the paper was retracted in 2024.
+
+
