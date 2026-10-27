@@ -51,15 +51,15 @@ To optimize classifier performance, I used three different feature-selection str
 In the first approach, the inclusion threshold was expanded from the top 10 candidates per evaluation 
 method to the top 30. This yielded 19 candidate proteins (compared to 4 identified under the 
 top-10 threshold). While this expansion improved model specificity, it decreased overall 
-classification accuracy, though the ROC-AUC increased. Having this many protiens could cause mult-colinearity
+classification accuracy, though the ROC-AUC increased. Having this many proteins could cause multi-colinearity
 and overfitting.\
 
 In the second approach, feature selection was constrained to 10 once again, but this time I used rank averages.
-I took the rank of each protien in each testing method averaged them, the top 10 
+I took the rank of each protein in each testing method, averaged them, the top 10 
 consensus candidates were kept. This rank-averaged model demonstrated big improvements 
 across the board, achieving the highest ROC-AUC among all the tests (0.9625).\
 
-Finally, a "more breathing room" apprach was tested by selecting proteins ranking 
+Finally, a "more breathing room" approach was tested by selecting proteins ranking 
 within the top 15 in one method and the top 30 in the other. This yielded 15 proteins and 
 produced accuracy comparable to the rank-averaged approach, with a slightly lower ROC-AUC.
 
