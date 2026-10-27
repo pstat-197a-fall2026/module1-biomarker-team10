@@ -143,7 +143,7 @@ res_fuzzy_slack <- evaluate_panel(panel_fuzzy_slack, "Part 3c (Fuzzy Slack Top 1
 comparison_table <- bind_rows(
   res_baseline$metrics,
   res_top30$metrics,
-  res_fuzzy_borda10$metrics,
+  res_fuzzy_average$metrics,
   res_fuzzy_slack$metrics
 ) %>%
   select(panel, n_proteins, .metric, .estimate) %>%
@@ -156,7 +156,8 @@ cat("1. Baseline (Top 10 Hard Intersect) [", length(panel_baseline), "proteins]:
     paste(panel_baseline, collapse = ", "), "\n")
 cat("2. Part 3b (Top 30 Hard Intersect) [", length(panel_top30), "proteins]:\n  ", 
     paste(panel_top30, collapse = ", "), "\n")
-cat("3. Part 3c (Fuzzy Borda Top 10) [", length(panel_fuzzy_borda10), "proteins]:\n  ", 
-    paste(panel_fuzzy_borda10, collapse = ", "), "\n")
+cat("3. Part 3c (Fuzzy Average Top 10) [", length(panel_fuzzy_average), "proteins]:\n  ", 
+    paste(panel_fuzzy_average, collapse = ", "), "\n")
 cat("4. Part 3c (Fuzzy Slack Top 15/30) [", length(panel_fuzzy_slack), "proteins]:\n  ", 
     paste(panel_fuzzy_slack, collapse = ", "), "\n")
+
