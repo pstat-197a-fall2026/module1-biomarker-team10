@@ -27,7 +27,8 @@ Write a brief one-paragraph abstract that describes the contents of your write-u
 
 ## Dataset
 
-Write a brief data description, including: how data were obtained; sample characteristics; variables measured; and data preprocessing. This can be largely based on the source paper and should not exceed 1-2 paragraphs.
+The dataset was compiled to evaluate serum proteomic biomarkers for the early detection of ASD in yound children. The cohort consists of 154 male children aged 18 to 48 months, with 76 diagnosed with ASD and 78 as typically developing. 
+For each subject, blood serum samples were analyzed, yielding relative concentrations for 1,317 proteins alongside clinical diagnostic scores. Preprocessing involved applying a $\log_{10}$ transformation to adjust for heavy right-skewness in raw protein concentrations, standardizing each protein, and trimming extreme outlying values at $\pm 3$ standard deviations.
 
 ## Summary of published analysis
 
