@@ -27,8 +27,7 @@ Write a brief one-paragraph abstract that describes the contents of your write-u
 
 ## Dataset
 
-The dataset was compiled to evaluate serum proteomic biomarkers for the early detection of ASD in yound children. The cohort consists of 154 male children aged 18 to 48 months, with 76 diagnosed with ASD and 78 as typically developing. 
-For each subject, blood serum samples were analyzed, yielding relative concentrations for 1,317 proteins alongside clinical diagnostic scores. Preprocessing involved applying a $\log_{10}$ transformation to adjust for heavy right-skewness in raw protein concentrations, standardizing each protein, and trimming extreme outlying values at $\pm 3$ standard deviations.
+The dataset was compiled to evaluate serum proteomic biomarkers for the early detection of ASD in yound children. The cohort consists of 154 male children aged 18 to 48 months, with 76 diagnosed with ASD and 78 as typically developing. For each subject, blood serum samples were analyzed, yielding relative concentrations for 1,317 proteins alongside clinical diagnostic scores. Preprocessing involved applying a $\log_{10}$ transformation to adjust for heavy right-skewness in raw protein concentrations, standardizing each protein, and trimming extreme outlying values at $\pm 3$ standard deviations.
 
 ## Summary of published analysis
 
@@ -55,3 +54,23 @@ In the second approach, feature selection was constrained to 10 once again, but 
 Finally, a "more breathing room" approach was tested by selecting proteins ranking within the top 15 in one method and the top 30 in the other. This yielded 15 proteins and produced accuracy comparable to the rank-averaged approach, with a slightly lower ROC-AUC.
 
 Task 4
+
+```{r}
+library(readr)
+library(knitr)
+
+q4_model_comparison <- read_csv("../scripts/q4-model-comparison.csv")
+
+kable(q4_model_comparison, digits = 3,
+      caption = "Comparison of Alternative Classification Models")
+```
+
+Finally, we found an alternative panel that achieved improved classification accuracy using random forest feature importance to select protein panels of different sizes. Five-fold cross-validation was used to compare panel sizes and **mtry** settings based on mean validation accuracy. The best configuration was fitted using the full training set and evaluated on the same held-out test set as the baseline.
+
+Our alternative panel only incorporated random forest models through iterative sequences and multiple folds. Cross-validation results showed that the selected panel size and **mtry** setting achieved the highest mean validation accuracy among the configurations evaluated. The final alternative panel contained **50 proteins**, much more than the original 7.
+
+On the held-out test set, the baseline logistic regression achieved an accuracy of **0.6875**, sensitivity of **0.5**, specificity of **0.875**, and ROC AUC of **0.73**. The alternative random forest achieved an accuracy of **0.75**, sensitivity of **0.6875**, specificity of **0.8125**, and ROC AUC of **0.76**.
+
+Compared with the baseline, the alternative model had **higher accuracy** and **higher ROC AUC**. Its sensitivity and specificity indicate whether any improvement in overall classification performance came at the expense of correctly identifying either ASD or TD participants.
+
+These results provide an initial comparison of two protein-selection and classification approaches. Because both models were evaluated on the same held-out test set, their observed test performance can be compared directly. However, the results are specific to this train/test split, and differences in performance do not establish that one approach will consistently outperform the other on new samples.
