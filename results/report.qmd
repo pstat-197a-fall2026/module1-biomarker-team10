@@ -61,7 +61,32 @@ Summarize your findings here. I've included some subheaders in a way that seems 
 
 ### Impact of preprocessing and outliers
 
-Tasks 1-2
+Raw protein levels are strongly right-skewed and measured on very different scales. Across all 1,317 proteins, the median skewness of raw levels was 2.26, and 76% of proteins had skewness above 1. Scales also vary enormously: median protein levels range from about 24 to over 190,000, and within a single protein the largest value can be up to roughly 2,700 times the smallest.
+
+After log10 transformation, median skewness dropped to 0.83, and the share of proteins with skewness above 1 fell from 76% to 45%. Logging does not make every protein symmetric, but it substantially pulls in the long right tails. For example, skewness for CHIP fell from 12.0 to 4.8, and for CEBPB from 5.5 to 1.3.
+
+The log transform matters for the downstream analysis for three reasons:
+
+-   **t-tests** assume roughly normal data within each group; heavy right skew violates this.
+-   **Outlier trimming** at ±3 SD only makes sense on a roughly symmetric scale. On the raw scale, the long right tail would be flagged as "outliers" even when it is typical behavior for that protein.
+-   **Comparable scales**: logging puts proteins measured on very different scales on a comparable footing before standardizing.
+
+Because many proteins remain somewhat skewed after logging, some of the values flagged as outliers in Task 2 likely reflect leftover right skew rather than measurement problems.
+
+Without trimming, 2,379 values (1.2% of all subject-protein measurements) fall more than 3 SD from their protein's mean. These are not spread evenly across subjects: the median subject has only 8.5 outlying values, but six subjects each have between 114 and 157, and together those six account for about 32% of all outlying values.
+
+Using the boxplot rule on per-subject counts (cutoff = Q3 + 1.5 × IQR ≈ 29), 13 subjects qualify as outlier subjects:
+
+| Group | Outlier Subjects | Total Subjects | \%    |
+|-------|------------------|----------------|-------|
+| ASD   | 4                | 76             | 5.3%  |
+| TD    | 9                | 78             | 11.5% |
+
+Outlier subjects are about twice as common in the TD group, and the most extreme subjects are mostly TD (4 of the top 6). However, the difference is not statistically significant (Fisher's exact test, p = 0.25), and the overall distribution of counts is nearly identical between groups (both medians = 8.5; Wilcoxon rank-sum p = 0.82). The higher TD mean (17.6 vs. 13.3) is driven by a few extreme TD subjects, not a group-wide shift.
+
+Several outlier subjects have outlying values that are almost all in one direction (e.g., one ASD subject with 126 values all above +3, and one TD subject with 114 all above +3). A subject who is unusually high across more than 100 unrelated proteins at once points to a sample-level issue, such as handling, storage, or assay batch, rather than real biology.
+
+Trimming individual values to ±3 limits the influence of extreme measurements, but it does not address the underlying problem, which is a handful of subjects whose entire profiles are unusual. Because these subjects are somewhat more common in the TD group, they could affect which proteins appear to separate ASD from TD.
 
 ### Methodological variations
 
@@ -73,8 +98,7 @@ To optimize classifier performance, we used three different feature-selection st
 
 In the second approach, feature selection was constrained to 10 once again, but this time we used rank averages. We took the rank of each protein in each testing method, averaged them, the top 10 consensus candidates were kept. This rank-averaged model demonstrated big improvements across the board, achieving the highest ROC-AUC among all the tests (0.9625).\
 
-Finally, a "more breathing room" approach was tested by selecting proteins ranking within the top 15 in one method and the top 30 in the other. This yielded 15 proteins and produced accuracy comparable to the rank-averaged approach, with a slightly lower ROC-AUC.
-Task 4
+Finally, a "more breathing room" approach was tested by selecting proteins ranking within the top 15 in one method and the top 30 in the other. This yielded 15 proteins and produced accuracy comparable to the rank-averaged approach, with a slightly lower ROC-AUC. Task 4
 
 ```{r}
 library(readr)
