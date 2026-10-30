@@ -2,25 +2,19 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.10.18">
+<meta name="generator" content="quarto-1.8.25">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Emma Nguyen, Henry Ding, Kendra Martinez, Sid Revanuru, Isaac Luna">
-<meta name="dcterms.date" content="2026-10-29">
+<meta name="dcterms.date" content="2026-10-30">
 
 <title>Biomarkers of ASD</title>
 <style>
-/* Default styles provided by pandoc.
-** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
-*/
+code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
-div.columns{display: flex; gap: 1.5em;}
-div.column{flex: auto;}
-@media screen {
-div.columns{gap: min(4vw, 1.5em);}
-div.column{overflow-x: auto;}
-}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
 div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
@@ -34,20 +28,21 @@ ul.task-list li input[type="checkbox"] {
 <script src="report_files/libs/clipboard/clipboard.min.js"></script>
 <script src="report_files/libs/quarto-html/quarto.js" type="module"></script>
 <script src="report_files/libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="report_files/libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="report_files/libs/quarto-html/popper.min.js"></script>
 <script src="report_files/libs/quarto-html/tippy.umd.min.js"></script>
 <script src="report_files/libs/quarto-html/anchor.min.js"></script>
 <link href="report_files/libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="report_files/libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="report_files/libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="report_files/libs/bootstrap/bootstrap.min.js"></script>
 <link href="report_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="report_files/libs/bootstrap/bootstrap-22b4c1abd28e63ff45684f4962f09b6b.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="report_files/libs/bootstrap/bootstrap-fc78cc84e086300a0584af8142339858.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script src="report_files/libs/quarto-diagram/mermaid.min.js"></script>
 <script src="report_files/libs/quarto-diagram/mermaid-init.js"></script>
 <link href="report_files/libs/quarto-diagram/mermaid.css" rel="stylesheet">
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 <script type="text/javascript">
 const typesetMath = (el) => {
@@ -104,7 +99,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Updated</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">October 29, 2026</p>
+      <p class="date">October 30, 2026</p>
     </div>
   </div>
   
@@ -116,14 +111,13 @@ window.Quarto = {
 </header>
 
 
-<p>Use this as a template. Keep the headers and remove all other text. In all, your report can be quite short. When it is complete, render and then push changes to your team repository.</p>
 <section id="abstract" class="level2">
 <h2 class="anchored" data-anchor-id="abstract">Abstract</h2>
-<p>Write a brief one-paragraph abstract that describes the contents of your write-up.</p>
+<p>In 2021, Hewitson et al.&nbsp;published a panel of proteins that served as a blood biomarker for early detection of ASD (Autism Spectrum Disorder). In this report, we utilized the preliminary results developed in class to enhance our findings and improve certain classification methods. We discussed the importance of log-transforming the protein levels, conducted outlier trimming on the proteins, and modified our experiment by increasing the number of proteins through fuzzy intersections. Finally, we ran two methods to establish panels of comparable and improved classification accuracy, which were reflected in accuracies of 0.749 and 0.75, respectively. These findings suggest that alternative classification methods may improve ASD classification performance, although further evaluation is needed to determine the reliability of these improvements.</p>
 </section>
 <section id="dataset" class="level2">
 <h2 class="anchored" data-anchor-id="dataset">Dataset</h2>
-<p>The dataset was compiled to evaluate serum proteomic biomarkers for the early detection of ASD in yound children. The cohort consists of 154 male children aged 18 to 48 months, with 76 diagnosed with ASD and 78 as typically developing. For each subject, blood serum samples were analyzed, yielding relative concentrations for 1,317 proteins alongside clinical diagnostic scores. Preprocessing involved applying a <span class="math inline">\(\log_{10}\)</span> transformation to adjust for heavy right-skewness in raw protein concentrations, standardizing each protein, and trimming extreme outlying values at <span class="math inline">\(\pm 3\)</span> standard deviations.</p>
+<p>The dataset was compiled to evaluate serum proteomic biomarkers for the early detection of ASD in young children. The cohort consists of 154 male children aged 18 to 48 months, with 76 diagnosed with ASD and 78 as typically developing. For each subject, blood serum samples were analyzed, yielding relative concentrations for 1,317 proteins alongside clinical diagnostic scores. Preprocessing involved applying a <span class="math inline">\(\log_{10}\)</span> transformation to adjust for heavy right-skewness in raw protein concentrations, standardizing each protein, and trimming extreme outlying values at <span class="math inline">\(\pm 3\)</span> standard deviations.</p>
 </section>
 <section id="summary-of-published-analysis" class="level2">
 <h2 class="anchored" data-anchor-id="summary-of-published-analysis">Summary of published analysis</h2>
@@ -145,37 +139,75 @@ window.Quarto = {
   G --&gt; H
   H --&gt; I(Logistic regression 80/20 train/test split done 1,000 times)
   I --&gt; J(Mean AUC of 0.860)
-
 </pre>
 </div>
 <p></p></figure><p></p>
 </div>
 </div>
 </div>
-<p><br>
-Hewitson et al.&nbsp;(2021) measured 1,317 serum proteins in 154 boys (76 ASD, 78 TD) using the SomaLogic SOMAScan 1.3k assay. After quality control, 1,125 proteins remained. Each protein was log10-transformed, standardized to z-scores, and clipped at ±3 to limit outliers.</p>
+<p>Hewitson et al.&nbsp;(2021) measured 1,317 serum proteins in 154 boys (76 ASD, 78 TD) using the SomaLogic SOMAScan 1.3k assay. After quality control, 1,125 proteins remained. Each protein was log10-transformed, standardized to z-scores, and clipped at ±3 to limit outliers.</p>
 <p>To find candidate biomarkers, the authors ranked every protein with three separate methods. A random forest 1,000 times and ranked by average MeanDecreaseGini, two-sample t-tests comparing ASD and TD, and correlation with ADOS total score. The top 10 proteins from each method were combined. The five proteins that appeared in all three lists became the core panel. Each of the other 13 top-ranked proteins was then added one at a time to a logistic regression on the core five, and the four that raised the AUC were kept.</p>
 <p>The final nine-protein logistic regression was evaluated with repeated random splits. It was trained on 80% of the boys and tested on the other 20% 1,000 times. All protein selection used the full sample before these splits, so the test boys had already helped choose the panel.</p>
 </section>
 <section id="findings" class="level2">
 <h2 class="anchored" data-anchor-id="findings">Findings</h2>
-<p>Summarize your findings here. I’ve included some subheaders in a way that seems natural to me; you can structure this section however you like.</p>
 <section id="impact-of-preprocessing-and-outliers" class="level3">
 <h3 class="anchored" data-anchor-id="impact-of-preprocessing-and-outliers">Impact of preprocessing and outliers</h3>
-<p>Tasks 1-2</p>
+<p>Raw protein levels are strongly right-skewed and measured on very different scales. Across all 1,317 proteins, the median skewness of raw levels was 2.26, and 76% of proteins had skewness above 1. Scales also vary enormously: median protein levels range from about 24 to over 190,000, and within a single protein the largest value can be up to roughly 2,700 times the smallest.</p>
+<p>After log10 transformation, median skewness dropped to 0.83, and the share of proteins with skewness above 1 fell from 76% to 45%. Logging does not make every protein symmetric, but it substantially pulls in the long right tails. For example, skewness for CHIP fell from 12.0 to 4.8, and for CEBPB from 5.5 to 1.3.</p>
+<p>The log transform matters for the downstream analysis for three reasons:</p>
+<ul>
+<li><strong>t-tests</strong> assume roughly normal data within each group; heavy right skew violates this.</li>
+<li><strong>Outlier trimming</strong> at ±3 SD only makes sense on a roughly symmetric scale. On the raw scale, the long right tail would be flagged as “outliers” even when it is typical behavior for that protein.</li>
+<li><strong>Comparable scales</strong>: logging puts proteins measured on very different scales on a comparable footing before standardizing.</li>
+</ul>
+<p>Because many proteins remain somewhat skewed after logging, some of the values flagged as outliers in Task 2 likely reflect leftover right skew rather than measurement problems.</p>
+<p>Without trimming, 2,379 values (1.2% of all subject-protein measurements) fall more than 3 SD from their protein’s mean. These are not spread evenly across subjects: the median subject has only 8.5 outlying values, but six subjects each have between 114 and 157, and together those six account for about 32% of all outlying values.</p>
+<p>Using the boxplot rule on per-subject counts (cutoff = Q3 + 1.5 × IQR ≈ 29), 13 subjects qualify as outlier subjects:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Group</th>
+<th>Outlier Subjects</th>
+<th>Total Subjects</th>
+<th>%</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>ASD</td>
+<td>4</td>
+<td>76</td>
+<td>5.3%</td>
+</tr>
+<tr class="even">
+<td>TD</td>
+<td>9</td>
+<td>78</td>
+<td>11.5%</td>
+</tr>
+</tbody>
+</table>
+<p>Outlier subjects are about twice as common in the TD group, and the most extreme subjects are mostly TD (4 of the top 6). However, the difference is not statistically significant (Fisher’s exact test, p = 0.25), and the overall distribution of counts is nearly identical between groups (both medians = 8.5; Wilcoxon rank-sum p = 0.82). The higher TD mean (17.6 vs.&nbsp;13.3) is driven by a few extreme TD subjects, not a group-wide shift.</p>
+<p>Several outlier subjects have outlying values that are almost all in one direction (e.g., one ASD subject with 126 values all above +3, and one TD subject with 114 all above +3). A subject who is unusually high across more than 100 unrelated proteins at once points to a sample-level issue, such as handling, storage, or assay batch, rather than real biology.</p>
+<p>Trimming individual values to ±3 limits the influence of extreme measurements, but it does not address the underlying problem, which is a handful of subjects whose entire profiles are unusual. Because these subjects are somewhat more common in the TD group, they could affect which proteins appear to separate ASD from TD.</p>
 </section>
 <section id="methodological-variations" class="level3">
 <h3 class="anchored" data-anchor-id="methodological-variations">Methodological variations</h3>
-<p>Task 3</p>
+<p>To optimize classifier performance, we used three different feature-selection strategies. In the first approach, the inclusion threshold was expanded from the top 10 candidates per evaluation method to the top 30. This yielded 19 candidate proteins (compared to 4 identified under the top-10 threshold). While this expansion improved model specificity, it decreased overall classification accuracy, though the ROC-AUC increased. Having this many proteins could cause multi-colinearity and overfitting.</p>
+<p>In the second approach, feature selection was constrained to 10 once again, but this time we used rank averages. We took the rank of each protein in each testing method, averaged them, the top 10 consensus candidates were kept. This rank-averaged model demonstrated big improvements across the board, achieving the highest ROC-AUC among all the tests (0.9625).</p>
+<p>Finally, a “more breathing room” approach was tested by selecting proteins ranking within the top 15 in one method and the top 30 in the other. This yielded 15 proteins and produced accuracy comparable to the rank-averaged approach, with a slightly lower ROC-AUC.</p>
 </section>
 <section id="improved-classifier" class="level3">
 <h3 class="anchored" data-anchor-id="improved-classifier">Improved classifier</h3>
-<p>To optimize classifier performance, I used three different feature-selection strategies. In the first approach, the inclusion threshold was expanded from the top 10 candidates per evaluation method to the top 30. This yielded 19 candidate proteins (compared to 4 identified under the top-10 threshold). While this expansion improved model specificity, it decreased overall classification accuracy, though the ROC-AUC increased. Having this many proteins could cause multi-colinearity and overfitting.<br>
-</p>
-<p>In the second approach, feature selection was constrained to 10 once again, but this time I used rank averages. I took the rank of each protein in each testing method, averaged them, the top 10 consensus candidates were kept. This rank-averaged model demonstrated big improvements across the board, achieving the highest ROC-AUC among all the tests (0.9625).<br>
-</p>
-<p>Finally, a “more breathing room” approach was tested by selecting proteins ranking within the top 15 in one method and the top 30 in the other. This yielded 15 proteins and produced accuracy comparable to the rank-averaged approach, with a slightly lower ROC-AUC.</p>
-<p>Task 4</p>
+<section id="simple-panel" class="level4">
+<h4 class="anchored" data-anchor-id="simple-panel"><strong>Simple Panel:</strong></h4>
+<p>To find a simpler panel, we modified two parts of the in-class method. Instead of intersecting the top 10 proteins from the t-test and the random forest, we used each ranking separately and tested the top 1 to 4 proteins from each. Though the in-class test set only contained 32 children, we evaluated each panel on 100 random 80/20 splits and averaged the results. A panel was considered comparable if its mean AUC and mean accuracy were no more than 0.025 below the estimates of the in-class panel. Among the various panels, we selected the one with the best AUC and the fewest proteins.&nbsp;</p>
+<p>The selected panel contained two proteins, DERM and IgD, which were the top two proteins in the random forest ranking. Across 100 splits, it had a mean AUC of 0.805 and a mean accuracy of 0.749, compared with 0.797 and 0.732 for the five-protein in-class panel. We were shocked to observe that just two proteins did as well as the one with five. The differences are relatively small, so the two panels perform comparably, with RELT, MRC2 and Cadherin-5 adding very little once DERM and IgD are included. On the original in-class split alone, the in-class panel had the higher AUC but lower accuracy, which shows that a single split is not reliable for comparing panels.</p>
+<p>Furthermore, several additional results support this choice. The DERM protein alone was not sufficient with a mean AUC of 0.753. At every panel size, the random forest ranking produced stronger panels than the t-test ranking. The random forest top 3 and top 4 panels exceeded the in-class panel, and both of them included the MAPK14 protein. In regards to the limitations, the protein rankings were computed using all 154 children (including those used for testing) so the reported accuracies are quite optimistic. The in-class panel shares this limitation so the comparison remains fair. Because the 100 splits reuse the same children, new data would be needed to confirm that the DERM and IgD proteins perform well as just a two protein panel.</p>
+</section>
+<section id="alternative-panel" class="level4">
+<h4 class="anchored" data-anchor-id="alternative-panel"><strong>Alternative Panel:</strong></h4>
 <div class="cell">
 <div class="cell-output-display">
 <table class="caption-top table table-sm table-striped small">
@@ -224,6 +256,7 @@ Hewitson et al.&nbsp;(2021) measured 1,317 serum proteins in 154 boys (76 ASD, 7
 <p>On the held-out test set, the baseline logistic regression achieved an accuracy of <strong>0.6875</strong>, sensitivity of <strong>0.5</strong>, specificity of <strong>0.875</strong>, and ROC AUC of <strong>0.73</strong>. The alternative random forest achieved an accuracy of <strong>0.75</strong>, sensitivity of <strong>0.6875</strong>, specificity of <strong>0.8125</strong>, and ROC AUC of <strong>0.76</strong>.</p>
 <p>Compared with the baseline, the alternative model had <strong>higher accuracy</strong> and <strong>higher ROC AUC</strong>. Its sensitivity and specificity indicate whether any improvement in overall classification performance came at the expense of correctly identifying either ASD or TD participants.</p>
 <p>These results provide an initial comparison of two protein-selection and classification approaches. Because both models were evaluated on the same held-out test set, their observed test performance can be compared directly. However, the results are specific to this train/test split, and differences in performance do not establish that one approach will consistently outperform the other on new samples.</p>
+</section>
 </section>
 </section>
 
