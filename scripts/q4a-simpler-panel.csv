@@ -1,0 +1,3 @@
+panel_type,proteins_list,n_proteins,mean_auc,sd_auc,mean_accuracy,mean_sensitivity,mean_specificity
+in-class,DERM|RELT|MRC2|IgD|Cadherin-5,5,0.7974609375,0.06978083353494197,0.7325,0.7275,0.7375
+RF top 2,DERM|IgD,2,0.8051953125,0.07059613937426734,0.7490625,0.765625,0.7325

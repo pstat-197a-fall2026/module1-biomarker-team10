@@ -206,5 +206,11 @@ stability
 simpler_panel
 comparison
 
+write_csv(comparison, "q4a-simpler-panel.csv")
 
-# NEXT: write up 
+
+
+
+
+
+

@@ -98,7 +98,19 @@ To optimize classifier performance, we used three different feature-selection st
 
 In the second approach, feature selection was constrained to 10 once again, but this time we used rank averages. We took the rank of each protein in each testing method, averaged them, the top 10 consensus candidates were kept. This rank-averaged model demonstrated big improvements across the board, achieving the highest ROC-AUC among all the tests (0.9625).\
 
-Finally, a "more breathing room" approach was tested by selecting proteins ranking within the top 15 in one method and the top 30 in the other. This yielded 15 proteins and produced accuracy comparable to the rank-averaged approach, with a slightly lower ROC-AUC. Task 4
+Finally, a "more breathing room" approach was tested by selecting proteins ranking within the top 15 in one method and the top 30 in the other. This yielded 15 proteins and produced accuracy comparable to the rank-averaged approach, with a slightly lower ROC-AUC.
+
+Task 4
+
+**Simple Panel:**
+
+To find a simpler panel, we modified two parts of the in-class method. Instead of intersecting the top 10 proteins from the t-test and the random forest, we used each ranking separately and tested the top 1 to 4 proteins from each. Though the  in-class test set only contained 32 children, we evaluated each panel on 100 random 80/20 splits and averaged the results. A panel was considered comparable if its mean AUC and mean accuracy were no more than 0.025 below the estimates of the in-class panel. Among the various panels, we selected the one with the best AUC and the fewest proteins. 
+
+The selected panel contained two proteins, DERM and IgD, which were the top two proteins in the random forest ranking. Across 100 splits, it had a mean AUC of 0.805 and a mean accuracy of 0.749, compared with 0.797 and 0.732 for the five-protein in-class panel. We were shocked to observe that just two proteins did as well as the one with five. The differences are relatively small, so the two panels perform comparably, with RELT, MRC2 and Cadherin-5 adding very little once DERM and IgD are included. On the original in-class split alone, the in-class panel had the higher AUC but lower accuracy, which shows that a single split is not reliable for comparing panels.
+
+Furthermore, several additional results support this choice. The DERM protein alone was not sufficient with a mean AUC of 0.753. At every panel size, the random forest ranking produced stronger panels than the t-test ranking. The random forest top 3 and top 4 panels exceeded the in-class panel, and both of them included the MAPK14 protein. In regards to the limitations, the protein rankings were computed using all 154 children (including those used for testing) so the reported accuracies are quite optimistic. The in-class panel shares this limitation so the comparison remains fair. Because the 100 splits reuse the same children, new data would be needed to confirm that the DERM and IgD proteins perform well as just a two protein panel.
+
+**Alternative Panel:**
 
 ```{r}
 library(readr)
